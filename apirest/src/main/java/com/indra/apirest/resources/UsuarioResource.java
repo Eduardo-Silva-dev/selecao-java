@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.indra.apirest.domain.Usuario;
@@ -19,12 +21,14 @@ import com.indra.apirest.service.UsuarioService;
 
 import javax.validation.Valid;
 
+@RestController
+@RequestMapping(value="/usuario")
 public class UsuarioResource {
 
 	@Autowired
 	private UsuarioService usurioService;
 	
-	@GetMapping("/id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<UsuarioDTO> find(@PathVariable Integer id) throws IOException {
 		UsuarioDTO obj = usurioService.findParcial(id);
 		return ResponseEntity.ok().body(obj);

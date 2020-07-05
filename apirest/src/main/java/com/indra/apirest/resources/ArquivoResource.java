@@ -14,6 +14,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.indra.apirest.domain.Usuario;
 import com.indra.apirest.service.ArquivoService;
+import com.indra.apirest.service.UsuarioService;
+
+import javassist.tools.rmi.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value="/arquivo")
@@ -22,9 +25,17 @@ public class ArquivoResource {
 	@Autowired 
 	private ArquivoService arquivoService;
 	
-	@PostMapping("/{nome}")
-	public ResponseEntity<Void> insertFile(@RequestParam("file") MultipartFile file, @PathVariable String nome ) {
-		arquivoService.insertFile(file,nome);
+	@Autowired 
+	private UsuarioService usuarioService;
+	
+	@PostMapping("/{id}/{nome}")
+	public ResponseEntity<Void> insertFile(@RequestParam("file") MultipartFile file, @PathVariable long id, @PathVariable String nome ) {
+		try {
+			Usuario user = usuarioService.find(id);
+			arquivoService.insertFile(user,file,nome);
+		} catch (ObjectNotFoundException e) {
+			e.printStackTrace();
+		}
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().buildAndExpand().toUri();
 		return ResponseEntity.created(uri).build();
 	}

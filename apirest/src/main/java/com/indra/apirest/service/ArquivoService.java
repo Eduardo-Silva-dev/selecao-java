@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,8 +26,6 @@ import com.indra.apirest.repository.EnderecoRepository;
 import com.indra.apirest.repository.PrecoRepository;
 import com.indra.apirest.repository.ProdutoRepository;
 import com.indra.apirest.repository.RevendedorRepository;
-import com.indra.apirest.repository.UsuarioRepository;
-import com.opencsv.CSVReader;
 
 @Service
 public class ArquivoService {
@@ -47,12 +44,12 @@ public class ArquivoService {
 
 	@Autowired
 	private RevendedorRepository revendedorRepository ;
-	
+
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UsuarioService usuarioService;
 	
 	
-	public void insertFile(MultipartFile file,String nome) {
+	public void insertFile(Usuario user,MultipartFile file,String nome) {
 		
 		String linha = "";
 		
@@ -72,6 +69,10 @@ public class ArquivoService {
 		
 		String caminho = insertCSV(file, nome);
 		
+		user.setCaminho(caminho);
+		
+		usuarioService.update(user, user.getId());
+		
 		try {
 
 			conteudoCsv = new BufferedReader(new FileReader(caminho));
@@ -81,7 +82,7 @@ public class ArquivoService {
 					String[] dado = linha.split(csvSeparadorCampo);
 	
 					Revendedor rev = new Revendedor(dado[4]);
-					Endereco end = new Endereco(dado[0], dado[1],dado[2]);
+					Endereco end = new Endereco(dado[0], dado[2],dado[1]);
 					end.setRevendedor(rev);
 					Produto prod = new Produto(dado[3], dado[5],dado[9],dado[10]);
 					prod.setRevendedor(rev);
@@ -89,7 +90,6 @@ public class ArquivoService {
 					prec.setProduto(prod);
 					Coleta col = new Coleta(dado[6]);
 					col.setProduto(prod);
-				//	rev.getProdutos().add(prod);
 					linha = conteudoCsv.readLine();
 					enderecos.add(end);
 					revendedores.add(rev);
@@ -109,18 +109,6 @@ public class ArquivoService {
 		}
 	}
 	
-	public Usuario fromDTO (MultipartFile file) {
-		
-		String caminho = insertCSV(file,"teste");
-		Usuario user = new Usuario();
-		user.setNome("teste");
-		user.setCaminho(caminho);
-		
-		usuarioRepository.save(user);
-		return user;
-		
-	}
-	
 	private String insertCSV (MultipartFile file,String nome) {
 		
 		File diretorio = new File("arquivos"); 
@@ -129,7 +117,6 @@ public class ArquivoService {
 			diretorio.mkdirs(); 
 		}
 
-		System.out.println(diretorio.getAbsolutePath());
 		Path path = Paths.get(diretorio.getAbsolutePath().toString()+"/"  + nome +".csv");
 		
 		try {
@@ -144,9 +131,7 @@ public class ArquivoService {
 	}
 	
 	public void saveAllEnderecos(List<Endereco> enderecos) {
-		for (Endereco endereco : enderecos) {
-			enderecoRepository.save(endereco);
-		}
+		enderecoRepository.saveAll(enderecos);
 	}
 	
 	public void saveAllRevendedores(List<Revendedor> revendedores) {

@@ -36,9 +36,6 @@ public class Produto implements Serializable{
 	@Column(name="bandeira")
 	private String bandeira;
 	
-	@Column(name = "data_cadastro")
-	private Date dataCadastro;
-	
 	@Column(name = "nome_revenda")
 	private String nomeRevenda;
 	
@@ -50,11 +47,10 @@ public class Produto implements Serializable{
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="revendedor_id")
+	@JoinColumn(name="revendedo_id")
 	private Revendedor revendedor;
 
 	public Produto() {
-		this.dataCadastro = new Date();
 	}
 
 	public Produto(String nome,String tipo, String undMedida, String bandeira) {
@@ -62,7 +58,6 @@ public class Produto implements Serializable{
 		this.tipo = tipo;
 		this.undMedida = undMedida;
 		this.bandeira = bandeira;
-		this.dataCadastro = new Date();
 	}
 
 	public long getId() {
@@ -105,14 +100,6 @@ public class Produto implements Serializable{
 		this.bandeira = bandeira;
 	}
 
-	public Date getDataCadastro() {
-		return dataCadastro;
-	}
-
-	public void setDataCadastro(Date dataCadastro) {
-		this.dataCadastro = dataCadastro;
-	}
-
 	public Revendedor getRevendedor() {
 		return revendedor;
 	}
@@ -137,49 +124,4 @@ public class Produto implements Serializable{
 		this.preco = preco;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((bandeira == null) ? 0 : bandeira.hashCode());
-		result = prime * result + ((dataCadastro == null) ? 0 : dataCadastro.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
-		result = prime * result + ((undMedida == null) ? 0 : undMedida.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Produto other = (Produto) obj;
-		if (bandeira == null) {
-			if (other.bandeira != null)
-				return false;
-		} else if (!bandeira.equals(other.bandeira))
-			return false;
-		if (dataCadastro == null) {
-			if (other.dataCadastro != null)
-				return false;
-		} else if (!dataCadastro.equals(other.dataCadastro))
-			return false;
-		if (id != other.id)
-			return false;
-		if (tipo == null) {
-			if (other.tipo != null)
-				return false;
-		} else if (!tipo.equals(other.tipo))
-			return false;
-		if (undMedida == null) {
-			if (other.undMedida != null)
-				return false;
-		} else if (!undMedida.equals(other.undMedida))
-			return false;
-		return true;
-	}
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.indra.apirest.domain.Usuario;
 import com.indra.apirest.dto.UsuarioDTO;
@@ -13,12 +14,13 @@ import com.indra.apirest.repository.UsuarioRepository;
 
 import javassist.tools.rmi.ObjectNotFoundException;
 
+@Service
 public class UsuarioService {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	public Usuario find(long id) throws ObjectNotFoundException {
+	public Usuario find(long id) throws ObjectNotFoundException{
 		
 		Usuario obj =  usuarioRepository.findById(id);
 		
@@ -32,9 +34,8 @@ public class UsuarioService {
 	
 	public UsuarioDTO findParcial(Integer id) throws IOException {
 		
-		Usuario obj;
 		try {
-			obj = find(id);
+			Usuario obj = find(id);
 			
 			UsuarioDTO obgDTO = new UsuarioDTO(obj);
 			

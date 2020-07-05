@@ -31,16 +31,13 @@ public class Endereco implements Serializable{
 	@Column(name = "estado")
 	private String estado;
 	
-	@Column(name = "data_cadastro")
-	private Date dataCadastro;
-	
 	@JoinColumn(name="revendedor_id")
 	@OneToOne
 	@MapsId
 	private Revendedor revendedor;
 
 	public Endereco() {
-		this.dataCadastro = new Date();
+		
 	}
 
 	public Endereco(String regiao, String municipio, String estado) {
@@ -48,7 +45,6 @@ public class Endereco implements Serializable{
 		this.regiao = regiao;
 		this.municipio = municipio;
 		this.estado = estado;
-		this.dataCadastro  = new Date();
 	}
 
 	public long getId() {
@@ -81,14 +77,6 @@ public class Endereco implements Serializable{
 
 	public void setEstado(String estado) {
 		this.estado = estado;
-	}
-
-	public Date getDataCadastro() {
-		return dataCadastro;
-	}
-
-	public void setDataCadastro(Date dataCadastro) {
-		this.dataCadastro = dataCadastro;
 	}
 
 	public Revendedor getRevendedor() {
