@@ -76,7 +76,6 @@ public class ArquivoService {
 		try {
 
 			conteudoCsv = new BufferedReader(new FileReader(caminho));
-			conteudoCsv.readLine();
 			
 			while ((linha = conteudoCsv.readLine())!=null) {	
 				

@@ -11,7 +11,8 @@ import com.indra.apirest.domain.Preco;
 
 public interface PrecoRepository  extends JpaRepository<Preco, Long> {
 	
-	@Query(value = "select e.municipio, Round(Avg(pr.valor_venda), 4) AS VALOR_VENDA from preco pr\r\n" + 
+	@Query(value = "select e.municipio, Round(Avg(pr.valor_venda), 4) AS VALOR_VENDA " +
+			"from preco pr\r\n" + 
 			"join Produto p on p.id = pr.produto_id\r\n" + 
 			"join Revendedor r on r.id = p.revendedo_id\r\n" + 
 			"join Endereco e on e.revendedor_id = r.id\r\n" + 

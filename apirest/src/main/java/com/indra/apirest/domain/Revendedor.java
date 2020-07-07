@@ -41,7 +41,11 @@ public class Revendedor implements Serializable{
 	private Endereco endereco; 
 	
 	@JsonIgnore
-	@OneToMany
+	@ManyToMany
+	@JoinTable(name = "Revendedor_Produto",
+		joinColumns = @JoinColumn(name = "revendedor_id"),
+		inverseJoinColumns = @JoinColumn(name = "produto_id")
+	)
 	private List<Produto> produtos = new ArrayList<>();
 
 	public Revendedor() {
