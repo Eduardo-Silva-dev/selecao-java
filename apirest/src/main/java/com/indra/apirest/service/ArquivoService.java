@@ -81,14 +81,23 @@ public class ArquivoService {
 				
 					String[] dado = linha.split(csvSeparadorCampo);
 	
-					Revendedor rev = new Revendedor(dado[4]);
-					Endereco end = new Endereco(dado[0], dado[2],dado[1]);
+					Revendedor rev = new Revendedor(removoCaracter(dado[4]));
+					Endereco end = new Endereco(
+							removoCaracter(dado[0]),
+							removoCaracter(dado[2]),
+							removoCaracter(dado[1]));
 					end.setRevendedor(rev);
-					Produto prod = new Produto(dado[3], dado[5],dado[9],dado[10]);
+					Produto prod = new Produto(
+							removoCaracter(dado[3]),
+							removoCaracter(dado[5]),
+							removoCaracter(dado[9]),
+							removoCaracter(dado[10]));
 					prod.setRevendedor(rev);
-					Preco prec = new Preco(dado[8],dado[7]);
+					Preco prec = new Preco(
+							removoCaracter(dado[8]),
+							removoCaracter(dado[7]));
 					prec.setProduto(prod);
-					Coleta col = new Coleta(dado[6]);
+					Coleta col = new Coleta(removoCaracter(dado[6]));
 					col.setProduto(prod);
 					linha = conteudoCsv.readLine();
 					enderecos.add(end);
@@ -108,6 +117,14 @@ public class ArquivoService {
 
 		}
 	}
+	
+	private String removoCaracter(String dado) {
+		dado = dado.replace("\0", "");
+		dado = dado.replace("��", "");
+		dado = dado.replace(",", ".");
+		return dado;
+	}
+	
 	
 	private String insertCSV (MultipartFile file,String nome) {
 		

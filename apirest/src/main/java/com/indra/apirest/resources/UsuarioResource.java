@@ -1,4 +1,7 @@
 package com.indra.apirest.resources;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.io.IOException;
 import java.net.URI;
 
@@ -27,6 +30,11 @@ public class UsuarioResource {
 
 	@Autowired
 	private UsuarioService usurioService;
+	
+	@GetMapping
+	public ResponseEntity<Page<UsuarioDTO>> findAll(Pageable pageable) throws IOException {
+		return ResponseEntity.ok().body(usurioService.findAll(pageable));
+	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<UsuarioDTO> find(@PathVariable Integer id) throws IOException {

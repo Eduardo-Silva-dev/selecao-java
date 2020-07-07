@@ -1,5 +1,7 @@
 package com.indra.apirest.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.io.IOException;
 
 import javax.transaction.Transactional;
@@ -47,13 +49,15 @@ public class UsuarioService {
 			return null;
 		}
 	}
-//	
-//	public Page<ArquivoDTO> findTratamentos(long id,Pageable pageable) {
-//		
-//		Page<ArquivoDTO> list = repoT.findTratamentos(id,pageable);
-//		
-//		return list;
-//	}
+
+	public Page<UsuarioDTO> findAll(Pageable pageable) throws IOException {
+		
+		Page<Usuario> analista = usuarioRepository.findAll(pageable);
+		
+		Page<UsuarioDTO> listDto = analista.map(obj -> new UsuarioDTO(obj));  
+		
+		return listDto;
+	}
 	
 	public Usuario fromDTO(UsuarioNewDTO objDto) {
 		

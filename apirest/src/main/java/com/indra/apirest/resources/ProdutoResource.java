@@ -17,10 +17,10 @@ public class ProdutoResource {
 	@Autowired
 	private ProdutoService produtoService;
 	
-	@GetMapping("/mediaMunicipio/{municipio}")
-	public ResponseEntity<?> MediaDePrecoDeVendaPorMunicipio(@PathVariable String municipio) {
+	@GetMapping("/mediaMunicipio")
+	public ResponseEntity<?> MediaDePrecoDeVendaPorMunicipio() {
 					
-			return new ResponseEntity<>(produtoService.MediaPrecoMunicipio(municipio), HttpStatus.OK);
+			return new ResponseEntity<>(produtoService.MediaPrecoMunicipio(), HttpStatus.OK);
 		
 	}
 	
