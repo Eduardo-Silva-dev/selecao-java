@@ -1,0 +1,20 @@
+<app-card [title]="title"> 
+    
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Municipio</th>
+          <th scope="col">Media Valor Compra</th>
+          <th scope="col">Media Valor Venda</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let Mvvm of mvvm">
+          <td>{{ Mvvm.municipio }}</td>
+          <td>R$ {{ Mvvm.Media_Valor_Compra }}</td>
+          <td>R$ {{ Mvvm.Media_Valor_Venda }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+  </app-card>

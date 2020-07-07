@@ -1,0 +1,36 @@
+<app-card [title]="title"> 
+    
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Cnpj</th>
+          <th scope="col">Bandeira</th>
+          <th scope="col">Revenda</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">UND de Medida</th>
+          <th scope="col">Media Valor Compra</th>
+          <th scope="col">Media Valor Venda</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Municipio</th>
+          <th scope="col">Regiao</th>
+          <th scope="col">Data de Coleta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let Isr of isr">
+          <td>{{ Isr.cnpj }}</td>
+          <td>{{ Isr.bandeira }}</td>
+          <td>{{ Isr.nome_revenda }}</td>
+          <td>{{ Isr.tipo }}</td>
+          <td>{{ Isr.und_medida }}</td>
+          <td>R$ {{ Isr.Media_Valor_Compra }}</td>
+          <td>R$ {{ Isr.Media_Valor_Venda }}</td>
+          <td>{{ Isr.estado }}</td>
+          <td>{{ Isr.municipio }}</td>
+          <td>{{ Isr.regiao }}</td>
+          <td>{{ Isr.data_coleta }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+  </app-card>

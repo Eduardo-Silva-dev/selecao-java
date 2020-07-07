@@ -1,0 +1,36 @@
+<app-card [title]="title"> 
+    
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Cnpj</th>
+        <th scope="col">Bandeira</th>
+        <th scope="col">Revenda</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">UND de Medida</th>
+        <th scope="col">Media Valor Compra</th>
+        <th scope="col">Media Valor Venda</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Municipio</th>
+        <th scope="col">Regiao</th>
+        <th scope="col">Data de Coleta</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let Dad of dad">
+        <td>{{ Dad.cnpj }}</td>
+        <td>{{ Dad.bandeira }}</td>
+        <td>{{ Dad.nome_revenda }}</td>
+        <td>{{ Dad.tipo }}</td>
+        <td>{{ Dad.und_medida }}</td>
+        <td>R$ {{ Dad.Media_Valor_Compra }}</td>
+        <td>R$ {{ Dad.Media_Valor_Venda }}</td>
+        <td>{{ Dad.estado }}</td>
+        <td>{{ Dad.municipio }}</td>
+        <td>{{ Dad.regiao }}</td>
+        <td>{{ Dad.data_coleta }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</app-card>

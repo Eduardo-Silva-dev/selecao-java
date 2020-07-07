@@ -1,0 +1,8 @@
+ .navbar{
+     margin: 0!important;
+     border-radius: 0!important;
+ }
+ .navbar-toggle{
+   display: inline-block!important;
+   margin-left: 10px!important;
+ }

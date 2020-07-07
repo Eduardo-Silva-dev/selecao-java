@@ -1,0 +1,43 @@
+
+<app-card [title]="title">
+  <form [formGroup]="arquivoForm" (submit)="salvar()"  class="form mt-4">
+
+    <div class="form-group">
+      <input
+        type="file"
+        formControlName="file"
+        class="form-control"
+        placeholder="Nome"
+        autofocus
+        (change)="file = $event.target.files[0]">
+    </div>
+
+    <div class="form-group">
+      <div class="progress">
+        <div class="progress-bar"
+             role="progressbar"
+             [style.width]="progress + '%'">
+             {{ progress }}%
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <input
+        formControlName="nomeArquivo"
+        type="text"
+        class="form-control"
+        placeholder="Nome do arquio">
+    </div>
+
+    <button
+      [disabled]="arquivoForm.invalid"
+      type="submit"
+      class="btn btn-primary btn-block">
+      Salvar
+    </button>
+  </form>
+</app-card>
+
+
+
