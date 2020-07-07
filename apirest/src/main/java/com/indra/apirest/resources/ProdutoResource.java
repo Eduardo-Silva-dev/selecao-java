@@ -18,10 +18,17 @@ public class ProdutoResource {
 	private ProdutoService produtoService;
 	
 	@GetMapping("/mediaMunicipio")
-	public ResponseEntity<?> MediaDePrecoDeVendaPorMunicipio() {
-					
-			return new ResponseEntity<>(produtoService.MediaPrecoMunicipio(), HttpStatus.OK);
-		
+	public ResponseEntity<?> MediaDePrecoDeVendaPorMunicipio() {	
+		return new ResponseEntity<>(produtoService.MediaPrecoMunicipio(), HttpStatus.OK);
 	}
 	
+	@GetMapping("/ValorMedioValorCompraValorVendaMunicipio")
+	public ResponseEntity<?> ValorMedioValorCompraValorVendaMunicipio() {	
+		return new ResponseEntity<>(produtoService.ValorMedioValorCompraValorVendaMunicipio(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/ValorMedioValorCompraValorVendaBandeira")
+	public ResponseEntity<?> ValorMedioValorCompraValorVendaBandeira() {	
+		return new ResponseEntity<>(produtoService.ValorMedioValorCompraValorVendaBandeira(), HttpStatus.OK);
+	}
 }

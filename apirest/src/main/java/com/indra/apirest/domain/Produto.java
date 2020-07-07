@@ -47,7 +47,6 @@ public class Produto implements Serializable{
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="revendedo_id")
 	private Revendedor revendedor;
 
 	public Produto() {

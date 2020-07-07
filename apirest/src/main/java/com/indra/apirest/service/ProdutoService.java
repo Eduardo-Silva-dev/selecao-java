@@ -22,4 +22,16 @@ public class ProdutoService {
 		List<ObjectNode> result = FuncaoUtils.formataJson(media);
 		return result;
 	}
+	
+	public List<ObjectNode> ValorMedioValorCompraValorVendaMunicipio(){
+		List<Tuple> media = precoRepository.ValorMedioValorCompraValorVendaMunicipio();
+		List<ObjectNode> result = FuncaoUtils.formataJson(media);
+		return result;
+	}
+	
+	public List<ObjectNode> ValorMedioValorCompraValorVendaBandeira(){
+		List<Tuple> media = precoRepository.ValorMedioValorCompraValorVendaBandeira();
+		List<ObjectNode> result = FuncaoUtils.formataJson(media);
+		return result;
+	}
 }

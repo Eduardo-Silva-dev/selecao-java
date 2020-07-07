@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -40,11 +41,7 @@ public class Revendedor implements Serializable{
 	private Endereco endereco; 
 	
 	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "Revendedor_Produto",
-		joinColumns = @JoinColumn(name = "revendedor_id"),
-		inverseJoinColumns = @JoinColumn(name = "produto_id")
-	)
+	@OneToMany
 	private List<Produto> produtos = new ArrayList<>();
 
 	public Revendedor() {
