@@ -26,7 +26,7 @@ public interface RevendedorRepository  extends JpaRepository<Revendedor, Long> {
 			"	join Coleta c on c.produto_id = p.id\r\n" + 
 			"	group by e.regiao\r\n" + 
 			"	order by r.cnpj",nativeQuery = true)
-	List<Tuple>  DadosAgrupadosPorDistribuidora();
+	List<Tuple>  informacoesImportadasSiglaRegiao();
 	
 	@Query(value = "select r.cnpj,p.bandeira,\r\n" + 
 			"p.nome_revenda,p.tipo,p.und_medida,\r\n" + 

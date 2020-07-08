@@ -15,48 +15,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.indra.apirest.domain.Arquivo;
 import com.indra.apirest.domain.Coleta;
 import com.indra.apirest.domain.Endereco;
 import com.indra.apirest.domain.Preco;
 import com.indra.apirest.domain.Produto;
 import com.indra.apirest.domain.Revendedor;
 import com.indra.apirest.domain.Usuario;
-import com.indra.apirest.repository.ColetaRepository;
-import com.indra.apirest.repository.EnderecoRepository;
-import com.indra.apirest.repository.PrecoRepository;
-import com.indra.apirest.repository.ProdutoRepository;
-import com.indra.apirest.repository.RevendedorRepository;
+import com.indra.apirest.repository.ArquivoRepository;
 
 @Service
 public class ArquivoService {
 
 	@Autowired
-	private EnderecoRepository enderecoRepository;
+	private EnderecoService enderecoService;
 
 	@Autowired
-	private PrecoRepository precoRepository;
+	private ProdutoService produtoService;
 
 	@Autowired
-	private ProdutoRepository produtoRepository;
+	private ArquivoRepository arquivoRepository;
 
 	@Autowired
-	private ColetaRepository coletaRepository ;
+	private ColetaService coletaService ;
 
 	@Autowired
-	private RevendedorRepository revendedorRepository ;
+	private RevendedorService revendedorService ;
 
 	@Autowired
 	private UsuarioService usuarioService;
 	
-	
 	public void insertFile(Usuario user,MultipartFile file,String nome) {
-		
+
 		String linha = "";
 		
-		String csvSeparadorCampo = "	";
-		
 		BufferedReader conteudoCsv = null;
-
+		
 		List<Revendedor> revendedores = new ArrayList<>();
 		
 		List<Produto> produtos = new ArrayList<>();
@@ -69,7 +63,11 @@ public class ArquivoService {
 		
 		String caminho = insertCSV(file, nome);
 		
-		user.setCaminho(caminho);
+		Arquivo arquivo = new Arquivo(caminho, nome);
+		arquivo.setUsuario(user);
+		arquivoRepository.save(arquivo);
+		
+		user.getArquivos().add(arquivo);
 		
 		usuarioService.update(user, user.getId());
 		
@@ -79,27 +77,33 @@ public class ArquivoService {
 			
 			while ((linha = conteudoCsv.readLine())!=null) {	
 				
-					String[] dado = linha.split(csvSeparadorCampo);
+					String[] dado = linha.split("\t");
 	
 					Revendedor rev = new Revendedor(removoCaracter(dado[4]));
+					
 					Endereco end = new Endereco(
 							removoCaracter(dado[0]),
 							removoCaracter(dado[2]),
 							removoCaracter(dado[1]));
 					end.setRevendedor(rev);
+					
 					Produto prod = new Produto(
 							removoCaracter(dado[3]),
 							removoCaracter(dado[5]),
 							removoCaracter(dado[9]),
 							removoCaracter(dado[10]));
 					prod.setRevendedor(rev);
+					
 					Preco prec = new Preco(
 							removoCaracter(dado[8]),
 							removoCaracter(dado[7]));
 					prec.setProduto(prod);
+					
 					Coleta col = new Coleta(removoCaracter(dado[6]));
 					col.setProduto(prod);
+					
 					linha = conteudoCsv.readLine();
+					
 					enderecos.add(end);
 					revendedores.add(rev);
 					produtos.add(prod);
@@ -107,15 +111,27 @@ public class ArquivoService {
 					coletas.add(col);
 					
 			}
-			saveAllEnderecos(enderecos);
-			saveAllRevendedores(revendedores);
-			saveAllColetas(coletas);
-			saveAllPrecos(precos);
-			saveAllProdutos(produtos);
+			
+			removoCabecalho(enderecos);
+			removoCabecalho(revendedores);
+			removoCabecalho(produtos);
+			removoCabecalho(precos);
+			removoCabecalho(coletas);
+			
+			enderecoService.saveAllEnderecos(enderecos);
+			revendedorService.saveAllRevendedores(revendedores);
+			coletaService.saveAllColetas(coletas);
+			produtoService.saveAllPrecos(precos);
+			produtoService.saveAllProdutos(produtos);
 
+			conteudoCsv.close();
 		} catch (Exception e) {
-
+			System.out.println(e);
 		}
+	}
+	
+	private void removoCabecalho(List<?> lista) {
+		lista.remove(0);
 	}
 	
 	private String removoCaracter(String dado) {
@@ -124,7 +140,6 @@ public class ArquivoService {
 		dado = dado.replace(",", ".");
 		return dado;
 	}
-	
 	
 	private String insertCSV (MultipartFile file,String nome) {
 		
@@ -145,26 +160,5 @@ public class ArquivoService {
 		String nomeArquivo = path.toString();
 		
 		return nomeArquivo;	
-	}
-	
-	public void saveAllEnderecos(List<Endereco> enderecos) {
-		enderecoRepository.saveAll(enderecos);
-	}
-	
-	public void saveAllRevendedores(List<Revendedor> revendedores) {
-		revendedorRepository.saveAll(revendedores);
-	}
-	
-	public void  saveAllProdutos(List<Produto> produtos) {
-		produtoRepository.saveAll(produtos);
-	}
-	
-	public void  saveAllPrecos(List<Preco> precos) {
-		precoRepository.saveAll(precos);
-	}
-	
-	public void saveAllColetas(List<Coleta> coletas) {
-		coletaRepository.saveAll(coletas);
-	}
-	
+	}	
 }

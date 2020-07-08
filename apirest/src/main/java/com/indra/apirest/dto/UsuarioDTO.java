@@ -2,13 +2,12 @@ package com.indra.apirest.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.indra.apirest.domain.Usuario;
 
 public class UsuarioDTO {
 
     protected long id;  
-
-    private String caminho; 
 
     private String nome;
 
@@ -16,6 +15,7 @@ public class UsuarioDTO {
 
     private String cpf;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dataCadastro;
 
 	public UsuarioDTO() {
@@ -36,14 +36,6 @@ public class UsuarioDTO {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getCaminho() {
-		return caminho;
-	}
-
-	public void setCaminho(String caminho) {
-		this.caminho = caminho;
 	}
 
 	public String getNome() {

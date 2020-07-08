@@ -1,14 +1,23 @@
 package com.indra.apirest.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.br.CPF;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Usuario")
@@ -20,9 +29,6 @@ public class Usuario implements Serializable{
 	@Column(name = "id")
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private long id;  
-	
-	@Column(name = "caminho")
-    private String caminho; 
 
     @Column(name = "nome")
     private String nome;
@@ -31,12 +37,22 @@ public class Usuario implements Serializable{
     private String sobrenome;
 
     @Column(name = "cpf")
+    @CPF
     private String cpf;
 
-	@Column(name = "data_cadastro")
+	@Column(name = "data_cadastro",length=8)
 	private Date dataCadastro;
 	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "Usuario_Arquivo",
+		joinColumns = @JoinColumn(name = "usuario_id"),
+		inverseJoinColumns = @JoinColumn(name = "arquivo_id")
+	)
+	private List<Arquivo> arquivos = new ArrayList<>();
+	
 	public Usuario() {
+		this.dataCadastro = new Date(System.currentTimeMillis());
 	}
 	
 	private Usuario(String nome, String sobrenome, String cpf) {
@@ -44,7 +60,7 @@ public class Usuario implements Serializable{
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.cpf = cpf;
-		this.dataCadastro = new Date();
+		this.dataCadastro = new Date(System.currentTimeMillis());
 	}
 
 	public static class UsuarioBuilder{
@@ -93,14 +109,6 @@ public class Usuario implements Serializable{
 		this.id = id;
 	}
 
-	public String getCaminho() {
-		return caminho;
-	}
-
-	public void setCaminho(String caminho) {
-		this.caminho = caminho;
-	}
-
 	public String getNome() {
 		return nome;
 	}
@@ -132,4 +140,13 @@ public class Usuario implements Serializable{
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
+
+	public List<Arquivo> getArquivos() {
+		return arquivos;
+	}
+
+	public void setArquivos(List<Arquivo> arquivos) {
+		this.arquivos = arquivos;
+	}
+	
 }

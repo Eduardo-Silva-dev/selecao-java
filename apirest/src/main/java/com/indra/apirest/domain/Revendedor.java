@@ -14,9 +14,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,6 +33,7 @@ public class Revendedor implements Serializable{
 	private long id;
 	
 	@Column(name="cnpj")
+	@CNPJ
 	private String cnpj;
 	
 	@Column(name = "data_cadastro")
@@ -49,12 +51,12 @@ public class Revendedor implements Serializable{
 	private List<Produto> produtos = new ArrayList<>();
 
 	public Revendedor() {
-		this.dataCadastro = new Date();
+		this.dataCadastro = new Date(System.currentTimeMillis());
 	}
 
 	public Revendedor(String cnpj) {
 		this.cnpj = cnpj;
-		this.dataCadastro = new Date();
+		this.dataCadastro = new Date(System.currentTimeMillis());
 	}
 
 	public long getId() {

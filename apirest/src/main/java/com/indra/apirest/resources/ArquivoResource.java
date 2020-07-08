@@ -16,6 +16,7 @@ import com.indra.apirest.domain.Usuario;
 import com.indra.apirest.service.ArquivoService;
 import com.indra.apirest.service.UsuarioService;
 
+import io.swagger.annotations.ApiOperation;
 import javassist.tools.rmi.ObjectNotFoundException;
 
 @RestController
@@ -28,6 +29,7 @@ public class ArquivoResource {
 	@Autowired 
 	private UsuarioService usuarioService;
 	
+	@ApiOperation(value="Inseri uma planilha de formato .CSV")
 	@PostMapping("/{id}/{nome}")
 	public ResponseEntity<Void> insertFile(@RequestParam("file") MultipartFile file, @PathVariable long id, @PathVariable String nome ) {
 		try {
